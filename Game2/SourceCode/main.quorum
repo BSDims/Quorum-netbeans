@@ -137,8 +137,10 @@ class Main is Game, CollisionListener2D
 
    enemyrandom = enemyrandom + 1
 if enemyrandom > randomE
+    if enemy1:IsShowing() = true and enemy2:IsShowing() = true
+        enemyrandom = 0
+    end
     if enemy1:IsShowing() = true
-//        if enemy2:IsShowing() = true
             integer position1 = random:RandomIntegerBetween(1,4)
             if position1 = 1
                 enemy2:SetPosition(22, 22)
@@ -158,7 +160,7 @@ if enemyrandom > randomE
         Add(enemy1)
     end
     enemyrandom = 0
-    randomE = random:RandomIntegerBetween(5,15)
+    randomE = random:RandomIntegerBetween(100, 500)
 end
 
     if monitor:IsKeyPressed(key:D)
@@ -298,13 +300,13 @@ end
             end
 
             if ItemA:GetName() = "enemy1" and ItemB:GetName() = "wall"
-                enemy1:Move(80,80)
+                ItemA:Move(80,80)
                end
             if ItemA:GetName() = "enemy2" and ItemB:GetName() = "wall"
-                enemy2:Move(80,80)
+                ItemA:Move(80,80)
                end
 
-            if ItemA:GetName() = "mainGuy" and ItemB:GetName() = "enemy"
+            if ItemA:GetName() = "mainGuy" and ItemB:GetName() = "enemy1"
             if ItemA:GetName() = "mainGuy" and ItemB:GetName() = "enemy2"
                plrhit:Play()
                HealthBar = HealthBar - 1
@@ -339,7 +341,7 @@ end
                 GameOver:Play()
                 end
             end
-            if ItemA:GetName() = "enemy" and ItemB:GetName() = "bullet"
+            if ItemA:GetName() = "enemy1" and ItemB:GetName() = "bullet"
                 emyhit:Play()
                 hit = hit + 1
             end
