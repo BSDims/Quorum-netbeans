@@ -13,6 +13,7 @@ use Libraries.Interface.Events.CollisionEvent2D
 use Libraries.Interface.Events.CollisionListener2D
 use Libraries.Compute.Random
 use Libraries.Game.Graphics.Label
+use Libraries.Game.Layer2D
 
 class Main is Game, CollisionListener2D
     Random random
@@ -49,7 +50,6 @@ class Main is Game, CollisionListener2D
     Audio BGM2
     Audio BGM3
     Audio BGM4
-    Audio BGM5
     Audio GameOver
     Label score
     text point = ""
@@ -60,7 +60,7 @@ class Main is Game, CollisionListener2D
     integer bulletX = 0
     integer bulletY = 0
     integer enemyrandom = 0
-    integer HealthBar = 5
+    integer HealthBar = 6
     integer randomE = 0
 
     action Main
@@ -103,13 +103,10 @@ class Main is Game, CollisionListener2D
         BGM2:EnableLooping()
         BGM3:Load("bgm-eeben5.wav")
         BGM3:EnableLooping()
-        BGM4:Load("bgm-fatality.wav")
+        BGM4:Load("bgm-koloblok.wav")
         BGM4:EnableLooping()
-        BGM5:Load("bgm-koloblok.wav")
-        BGM5:EnableLooping()
         GameOver:Load("GameOver.wav")
-        GameOver:EnableLooping()
-            HealthBar = 5 
+        GameOver:EnableLooping() 
         BGM2:Play()
 
         hb1:Load("hb1.png")
@@ -241,38 +238,26 @@ end
         BGM1:Stop()
         BGM3:Stop()
         BGM4:Stop()
-        BGM5:Stop()
         BGM2:Play()
     end
     if monitor:IsKeyPressed(key:F1)
         BGM2:Stop()
         BGM3:Stop()
         BGM4:Stop()
-        BGM5:Stop()
         BGM1:Play()
     end
     if monitor:IsKeyPressed(key:F3)
         BGM1:Stop()
         BGM2:Stop()
         BGM4:Stop()
-        BGM5:Stop()
         BGM3:Play()
-        end 
-        
-        if monitor:IsKeyPressed(key:F4)
-        BGM2:Stop()
-        BGM3:Stop()
-        BGM1:Stop()
-        BGM5:Stop()
-        BGM4:Play()
 end
 
-if monitor:IsKeyPressed(key:F5)
+if monitor:IsKeyPressed(key:F4)
         BGM2:Stop()
         BGM3:Stop()
         BGM1:Stop()
-        BGM4:Stop()
-        BGM5:Play()
+        BGM4:Play()
 end
 
         if monitor:IsKeyPressed(key:TAB)
@@ -280,28 +265,22 @@ end
         BGM2:Stop()
         BGM3:Stop()
         BGM4:Stop()
-        BGM5:Stop()
         end 
 end
     action BeginCollision(CollisionEvent2D event)
         Drawable ItemA = cast(Drawable, event:GetItemA())
         Drawable ItemB = cast(Drawable, event:GetItemB()) 
 
-            if ItemA:GetName() = "mainGuy" and ItemB:GetName() = "enemy"
-               plrhit:Play()
-               HealthBar = HealthBar - 1
-               ItemA:Move(80,80)
-            end 
-
             if ItemA:GetName() = "enemy" and ItemB:GetName() = "wall"
-                ItemA:Move(80,80)
+                ItemA:Move(50,50)
                end
 
 
             if ItemA:GetName() = "mainGuy" and ItemB:GetName() = "enemy"
                plrhit:Play()
                HealthBar = HealthBar - 1
-               ItemA:Move(50,50)
+//               output HealthBar
+               ItemA:Move(30,30)
                if HealthBar = 5
                 hb1:Dispose()
                     end
@@ -317,16 +296,13 @@ end
                 if HealthBar = 1
                 hb5:Dispose()
                 end
-               if HealthBar = 0
+               if HealthBar = 1
                 Remove(ItemA)
                 Add(hbA)
                 BGM1:Stop()
                 BGM2:Stop()
                 BGM3:Stop()
                 BGM4:Stop()
-                BGM5:Stop()
-                enemy1:Dispose()
-                enemy2:Dispose()
                 Add(GOtext)
                 GameOver:Play()
                 end
@@ -342,7 +318,6 @@ end
                 BGM2:Stop()
                 BGM3:Stop()
                 BGM4:Stop()
-                BGM5:Stop()
                 wallhit:Play()
                 Add(GOtext)
                 Add(hbA)
@@ -350,6 +325,14 @@ end
                 enemy2:Dispose()
                 GameOver:Play()
             end
+                //if GOtext:IsShowing() = true
+                    //Remove(hb1)
+                    //Remove(hb2)
+                    //Remove(hb3)
+                    //Remove(hb4)
+                    //Remove(hb5)
+                        //end
+//2/22/2018 - LINE NEEDS WORK! INSTA CRASH!
     end 
 
     action FinishCollision(CollisionEvent2D event)
@@ -428,11 +411,20 @@ end
         wall4:SetName("wall")
         wall4:SetCollidable(true)
         Add(score)
-        Add(hb1) 
-        Add(hb2)
-        Add(hb3)
-        Add(hb4)
-        Add(hb5)
+        //Add(hb1) 
+        //Add(hb2)
+        //Add(hb3)
+        //Add(hb4)
+        //Add(hb5)
+
+        Layer2D layer
+            layer:AddToFront(hb1)
+            layer:AddToFront(hb2)
+            layer:AddToFront(hb3)
+            layer:AddToFront(hb4)
+            layer:AddToFront(hb5)
+            AddLayer(layer)
+
 end
 end 
 
