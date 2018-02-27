@@ -94,12 +94,11 @@ class Main is Game, CollisionListener2D
         enemy1:Load("E1F1.png")
         enemy1:Load("E1F2.png")
         enemy1:SetName("enemy")
+        enemy1:SetScale(5)
         enemy1:SetCollidable(true)
-        enemy2:Load()
-        enemy2:Load()
-        enemy2:Load()
-        
+        enemy2:Load("E2F.png")
         enemy2:SetName("enemy")
+        enemy2:SetScale(5)
         enemy2:SetCollidable(true)
         emydead:Load("EMYdead.ogg")
         emyhit:Load("EMYhit.wav")
@@ -115,6 +114,9 @@ class Main is Game, CollisionListener2D
         GameOver:EnableLooping() 
         BGM2:Play()
 
+        hbA:Load("hbA.png")
+        hbA:SetPosition(GetScreenWidth()-75,0)
+        Add(hbA)
         hb1:Load("hb1.png")
         hb1:SetPosition(GetScreenWidth()-15,0)
         hb2:Load("hb2.png")
@@ -125,8 +127,6 @@ class Main is Game, CollisionListener2D
         hb4:SetPosition(GetScreenWidth()-60,0)
         hb5:Load("hb5.png")
         hb5:SetPosition(GetScreenWidth()-75,0)
-        hbA:Load("hbA.png")
-        hbA:SetPosition(GetScreenWidth()-75,0)
         Begin()
 
     end
@@ -304,7 +304,6 @@ end
                 end
                if HealthBar = 1
                 Remove(ItemA)
-                Add(hbA)
                 BGM1:Stop()
                 BGM2:Stop()
                 BGM3:Stop()
@@ -338,7 +337,7 @@ end
                     //Remove(hb4)
                     //Remove(hb5)
                         //end
-//2/22/2018 - LINE NEEDS WORK! INSTA CRASH!
+//2-22-2018 - LINE NEEDS WORK! INSTA CRASH!
     end 
 
     action FinishCollision(CollisionEvent2D event)
@@ -367,6 +366,7 @@ end
             monitor:IsKeyPressed(key:RIGHT)
                 enemy1:SetPosition(playerX-enemy1X/2, playerY-enemy1Y/2, 0)
         end
+//2-27-2018 - note-2-Am.RT: enemy1 mimics enemy2 nowadays
         integer m2 = random:RandomIntegerBetween(1,4)
         if m2 = 1
             enemy2:Move(0,10)
@@ -416,14 +416,9 @@ end
         Add(wall4)
         wall4:SetName("wall")
         wall4:SetCollidable(true)
-        Add(score)
-        //Add(hb1) 
-        //Add(hb2)
-        //Add(hb3)
-        //Add(hb4)
-        //Add(hb5)
-
+        
         Layer2D layer
+            layer:AddToFront(score)
             layer:AddToFront(hb1)
             layer:AddToFront(hb2)
             layer:AddToFront(hb3)
@@ -432,5 +427,4 @@ end
             AddLayer(layer)
 
 end
-end 
-
+end
