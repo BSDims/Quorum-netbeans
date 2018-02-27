@@ -95,9 +95,10 @@ class Main is Game, CollisionListener2D
         enemy1:Load("E1F2.png")
         enemy1:SetName("enemy")
         enemy1:SetCollidable(true)
-        enemy2:Load("E2F1.png")
-        enemy2:Load("E2F2.png")
-        enemy2:Load("E2F3.png")
+        enemy2:Load()
+        enemy2:Load()
+        enemy2:Load()
+        
         enemy2:SetName("enemy")
         enemy2:SetCollidable(true)
         emydead:Load("EMYdead.ogg")
