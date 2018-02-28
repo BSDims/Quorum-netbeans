@@ -51,6 +51,7 @@ class Main is Game, CollisionListener2D
     Audio BGM3
     Audio BGM4
     Audio GameOver
+    Audio lowhp
     Label score
     text point = ""
     integer shots = 5
@@ -111,7 +112,9 @@ class Main is Game, CollisionListener2D
         BGM4:Load("bgm-koloblok.wav")
         BGM4:EnableLooping()
         GameOver:Load("GameOver.wav")
-        GameOver:EnableLooping() 
+        GameOver:EnableLooping()
+        lowhp:Load("lowhp.wav")
+        lowhp:EnableLooping()
         BGM2:Play()
 
         hbA:Load("hbA.png")
@@ -271,7 +274,16 @@ end
         BGM2:Stop()
         BGM3:Stop()
         BGM4:Stop()
-        end 
+        end
+
+                    if GameOver:IsPlaying() = true
+                    Remove(hb1)
+                    Remove(hb2)
+                    Remove(hb3)
+                    Remove(hb4)
+                    Remove(hb5)
+                        end
+//2-28-2018 - nope, still crash.
 end
     action BeginCollision(CollisionEvent2D event)
         Drawable ItemA = cast(Drawable, event:GetItemA())
@@ -298,6 +310,11 @@ end
                     end
                 if HealthBar = 2
                 hb4:Dispose()
+                lowhp:Play()
+                BGM1:Stop()
+                BGM2:Stop()
+                BGM3:Stop()
+                BGM4:Stop()
                     end
                 if HealthBar = 1
                 hb5:Dispose()
@@ -330,14 +347,6 @@ end
                 enemy2:Dispose()
                 GameOver:Play()
             end
-                //if GOtext:IsShowing() = true
-                    //Remove(hb1)
-                    //Remove(hb2)
-                    //Remove(hb3)
-                    //Remove(hb4)
-                    //Remove(hb5)
-                        //end
-//2-22-2018 - LINE NEEDS WORK! INSTA CRASH!
     end 
 
     action FinishCollision(CollisionEvent2D event)
@@ -360,14 +369,12 @@ end
         integer enemy1X = cast(integer, enemy1:GetX())
         integer enemy1Y = cast(integer, enemy1:GetY())
 
-        if monitor:IsKeyPressed(key:DOWN) or
-            monitor:IsKeyPressed(key:UP) or
-            monitor:IsKeyPressed(key:LEFT) or
-            monitor:IsKeyPressed(key:RIGHT)
-                enemy1:SetPosition(playerX-enemy1X/2, playerY-enemy1Y/2, 0)
-        end
-//2-27-2018 - note-2-Am.RT: enemy1 mimics enemy2 nowadays
-        integer m2 = random:RandomIntegerBetween(1,4)
+        //if monitor:IsKeyPressed(key:DOWN) or
+            //monitor:IsKeyPressed(key:UP) or
+            //monitor:IsKeyPressed(key:LEFT) or
+            //monitor:IsKeyPressed(key:RIGHT)
+                //enemy1:SetPosition(playerX-enemy1X/2, playerY-enemy1Y/2, 0)
+         integer m2 = random:RandomIntegerBetween(1,4)
         if m2 = 1
             enemy2:Move(0,10)
         elseif m2 = 2
@@ -377,8 +384,19 @@ end
         elseif m2 = 4
             enemy2:Move(-10,0)
         end
-    end
-
+        end
+        integer m1 = random:RandomIntegerBetween(1,4)
+        if m1 = 1
+            enemy1:Move(0,10)
+        elseif m1 = 2
+            enemy1:Move(0,-10)
+        elseif m1 = 3
+            enemy1:Move(10,0)
+        elseif m1 = 4
+            enemy1:Move(-10,0)
+        end
+end
+//2-28-2018 - why do these lines hate me?
         
     action Begin()
         integer position1 = random:RandomIntegerBetween(1,4)
