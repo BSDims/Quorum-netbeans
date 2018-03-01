@@ -64,6 +64,7 @@ class Main is Game, CollisionListener2D
     integer HealthBar = 6
     integer randomE = 0
 
+
     action Main
         StartGame()
     end
@@ -169,27 +170,27 @@ if enemyrandom > randomE
     randomE = random:RandomIntegerBetween(100, 500)
 end
 
-    if monitor:IsKeyPressed(key:D)
+    if monitor:IsKeyPressed(key:RIGHT)
         number oldx = mainGuy:GetX()
         number newx = oldx + speed * seconds
         mainGuy:SetPosition(newx, mainGuy:GetY(), mainGuy:GetZ())
 //Sound:SetPosition(newx, mainGuy:GetY(), mainGuy:GetZ())
 end 
 
-    if monitor:IsKeyPressed(key:A)
+    if monitor:IsKeyPressed(key:LEFT)
         number oldx = mainGuy:GetX()
         number newx = oldx - speed * seconds
         mainGuy:SetPosition(newx, mainGuy:GetY(), mainGuy:GetZ())
 //        Sound:SetPosition(newx, mainGuy:GetY(), mainGuy:GetZ())
     end
-    if monitor:IsKeyPressed(key:W)
+    if monitor:IsKeyPressed(key:UP)
         number oldy = mainGuy:GetY()
         number newy = oldy + speed * seconds
         mainGuy:SetPosition(mainGuy:GetX(), newy, mainGuy:GetZ())
         enemy1:SetPosition(mainGuy:GetX() /2, newy, mainGuy:GetZ()/2)
 //    Sound:SetPosition(mainGuy:GetX(), newy, mainGuy:GetZ())
     end
-    if monitor:IsKeyPressed(key:S)
+    if monitor:IsKeyPressed(key:DOWN)
         number oldY = mainGuy:GetY()
         number newY = oldY - speed * seconds
         mainGuy:SetPosition(mainGuy:GetX(), newY, mainGuy:GetZ())
@@ -201,7 +202,7 @@ end
         Exit()
     end
 
-    if monitor:IsKeyPressed(key:LEFT)
+    if monitor:IsKeyPressed(key:A)
         plrshot:Play()
         bullet:Load("bull.png")
         bullet:SetName("bullet")
@@ -213,7 +214,7 @@ end
     end
          bullet:Move(bulletX, bulletY)
 
-if monitor:IsKeyPressed(key:RIGHT)
+if monitor:IsKeyPressed(key:D)
         plrshot:Play()
         bullet:Load("bull.png")
         bullet:SetName("bullet")
@@ -224,14 +225,14 @@ if monitor:IsKeyPressed(key:RIGHT)
          bulletY = 3*counter
 end
 
-if monitor:IsKeyPressed(key:UP)
+if monitor:IsKeyPressed(key:W)
 plrshot:Play()
-bullet:SetPosition(mainGuy:GetX(),mainGuy:GetY())
+bullet:SetPosition(mainGuy:GetCenterX(),mainGuy:GetCenterY())
          bulletX = 3*counter
          bulletY = 28*counter
 end
 
-if monitor:IsKeyPressed(key:DOWN)
+if monitor:IsKeyPressed(key:S)
 plrshot:Play()
 bullet:SetPosition(mainGuy:GetX(),mainGuy:GetY())
          bulletX = 3*counter
@@ -284,6 +285,7 @@ end
                     Remove(hb5)
                         end
 //2-28-2018 - nope, still crash.
+
 end
     action BeginCollision(CollisionEvent2D event)
         Drawable ItemA = cast(Drawable, event:GetItemA())
@@ -298,7 +300,7 @@ end
                plrhit:Play()
                HealthBar = HealthBar - 1
 //               output HealthBar
-               ItemA:Move(30,30)
+               //ItemA:Move(40,40)
                if HealthBar = 5
                 hb1:Dispose()
                     end
@@ -315,6 +317,7 @@ end
                 BGM2:Stop()
                 BGM3:Stop()
                 BGM4:Stop()
+                say("alert, health systems critical")
                     end
                 if HealthBar = 1
                 hb5:Dispose()
@@ -368,13 +371,16 @@ end
         integer playerY = cast(integer, mainGuy:GetY())
         integer enemy1X = cast(integer, enemy1:GetX())
         integer enemy1Y = cast(integer, enemy1:GetY())
+        integer enemy2X = cast(integer, enemy2:GetX())
+        integer enemy2Y = cast(integer, enemy2:GetY())
 
         //if monitor:IsKeyPressed(key:DOWN) or
             //monitor:IsKeyPressed(key:UP) or
             //monitor:IsKeyPressed(key:LEFT) or
             //monitor:IsKeyPressed(key:RIGHT)
                 //enemy1:SetPosition(playerX-enemy1X/2, playerY-enemy1Y/2, 0)
-         integer m2 = random:RandomIntegerBetween(1,4)
+        
+        integer m2 = random:RandomIntegerBetween(1,4)
         if m2 = 1
             enemy2:Move(0,10)
         elseif m2 = 2
@@ -384,7 +390,7 @@ end
         elseif m2 = 4
             enemy2:Move(-10,0)
         end
-        end
+
         integer m1 = random:RandomIntegerBetween(1,4)
         if m1 = 1
             enemy1:Move(0,10)
@@ -396,7 +402,6 @@ end
             enemy1:Move(-10,0)
         end
 end
-//2-28-2018 - why do these lines hate me?
         
     action Begin()
         integer position1 = random:RandomIntegerBetween(1,4)
