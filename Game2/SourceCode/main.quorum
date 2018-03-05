@@ -71,8 +71,9 @@ class Main is Game, CollisionListener2D
 
     action CreateGame
     randomE = random:RandomIntegerBetween(5,15)
-    Background:Load("bg_stone.jpg")
-    Background:SetScale(4)
+    Background:Load("stripped.png")
+    Background:SetScale(5)
+    //Background:SetPosition((0, GetScreenHieght()0)
     Add(Background)
     score:SetText(point)
     score:SetColor(grey:Red())
@@ -110,7 +111,7 @@ class Main is Game, CollisionListener2D
         BGM2:EnableLooping()
         BGM3:Load("bgm-eeben5.wav")
         BGM3:EnableLooping()
-        BGM4:Load("bgm-koloblok.wav")
+        BGM4:Load("bgm-kolobok.wav")
         BGM4:EnableLooping()
         GameOver:Load("GameOver.wav")
         GameOver:EnableLooping()
@@ -211,7 +212,7 @@ end
          bullet:SetPosition(mainGuy:GetX(),mainGuy:GetY())
          bulletX = -25*counter
          bulletY = 3*counter
-    end
+         end
          bullet:Move(bulletX, bulletY)
 
 if monitor:IsKeyPressed(key:D)
@@ -277,7 +278,7 @@ end
         BGM4:Stop()
         end
 
-                    if GameOver:IsPlaying() = true
+                    if GameOver:IsPlaying()
                     Remove(hb1)
                     Remove(hb2)
                     Remove(hb3)
@@ -312,17 +313,15 @@ end
                     end
                 if HealthBar = 2
                 hb4:Dispose()
+                say("warning! Health systems critical!")
                 lowhp:Play()
                 BGM1:Stop()
                 BGM2:Stop()
                 BGM3:Stop()
                 BGM4:Stop()
-                say("alert, health systems critical")
                     end
-                if HealthBar = 1
-                hb5:Dispose()
-                end
                if HealthBar = 1
+                hb5:Dispose()
                 Remove(ItemA)
                 BGM1:Stop()
                 BGM2:Stop()
