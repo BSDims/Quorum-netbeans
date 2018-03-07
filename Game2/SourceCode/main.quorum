@@ -63,7 +63,10 @@ class Main is Game, CollisionListener2D
     integer enemyrandom = 0
     integer HealthBar = 6
     integer randomE = 0
-
+    integer CurrentAnimation = 0
+    number AnimationTimer = 0
+    number FrameTime = 0.5
+    integer Animation = 0
 
     action Main
         StartGame()
@@ -81,10 +84,13 @@ class Main is Game, CollisionListener2D
     score:SetPosition(0, GetScreenHeight()-20)
         AddCollisionListener(me)
         mainGuy:Load("MGF1.png")
-        mainGuy:Load("MGF2.png")
+        //mainGuy:Load("MGF2.png")
         mainGuy:SetScale(5)
         mainGuy:SetPosition((GetScreenWidth()/2)-52.5,(GetScreenHeight()/2)-52.5)
         Add(mainGuy)
+        SetAnimation(0)
+
+
         mainGuy:SetName("mainGuy")
         mainGuy:SetCollidable(true)
         wallhit:Load("wallhit.wav")
@@ -109,7 +115,8 @@ class Main is Game, CollisionListener2D
         BGM1:EnableLooping()
         BGM2:Load("bgm-eeben2.wav")
         BGM2:EnableLooping()
-        BGM3:Load("bgm-eeben5.wav")
+        //BGM3:Load("bgm-eeben5.wav")
+        BGM3:Load("bgm-elektrosphere.wav")
         BGM3:EnableLooping()
         BGM4:Load("bgm-kolobok.wav")
         BGM4:EnableLooping()
@@ -117,7 +124,7 @@ class Main is Game, CollisionListener2D
         GameOver:EnableLooping()
         lowhp:Load("lowhp.wav")
         lowhp:EnableLooping()
-        BGM2:Play()
+        BGM3:Play()
 
         hbA:Load("hbA.png")
         hbA:SetPosition(GetScreenWidth()-75,0)
@@ -135,8 +142,23 @@ class Main is Game, CollisionListener2D
         Begin()
 
     end
+
+
+        action SetAnimation(integer Animation)
+            if CurrentAnimation = 0
+                mainGuy:Load("MGF1.png")
+                elseif CurrentAnimation = 1
+                mainGuy:Load("MGF2.png")
+            end
+        end
+
     
     action Update(number seconds)
+        AnimationTimer = AnimationTimer + 0.5
+
+        if AnimationTimer > FrameTime
+        SetAnimation(CurrentAnimation + 1)
+        end
     point = cast(text, points)
     integer counter =  0
     counter = counter + 1
@@ -278,13 +300,13 @@ end
         BGM4:Stop()
         end
 
-                    if GameOver:IsPlaying()
-                    Remove(hb1)
-                    Remove(hb2)
-                    Remove(hb3)
-                    Remove(hb4)
-                    Remove(hb5)
-                        end
+        if GameOver:IsPlaying()
+            Remove(hb1)
+            Remove(hb2)
+            Remove(hb3)
+            Remove(hb4)
+            Remove(hb5)
+        end
 //2-28-2018 - nope, still crash.
 
 end
@@ -313,12 +335,12 @@ end
                     end
                 if HealthBar = 2
                 hb4:Dispose()
-                say("warning! Health systems critical!")
                 lowhp:Play()
                 BGM1:Stop()
                 BGM2:Stop()
                 BGM3:Stop()
                 BGM4:Stop()
+                say("warning! Health systems critical!")
                     end
                if HealthBar = 1
                 hb5:Dispose()
