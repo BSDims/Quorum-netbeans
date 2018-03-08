@@ -76,6 +76,7 @@ class Main is Game, CollisionListener2D
     randomE = random:RandomIntegerBetween(5,15)
     Background:Load("stripped.png")
     Background:SetScale(5)
+    Background:SetPosition(20, 20)
     //Background:SetPosition((0, GetScreenHieght()0)
     Add(Background)
     score:SetText(point)
