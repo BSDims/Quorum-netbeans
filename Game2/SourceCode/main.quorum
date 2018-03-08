@@ -80,7 +80,7 @@ class Main is Game, CollisionListener2D
     //Background:SetPosition((0, GetScreenHieght()0)
     Add(Background)
     score:SetText(point)
-    score:SetColor(grey:Red())
+    score:SetColor(grey:Green())
     score:SetSize(30)
     score:SetPosition(0, GetScreenHeight()-20)
         AddCollisionListener(me)
@@ -122,7 +122,7 @@ class Main is Game, CollisionListener2D
         BGM4:Load("bgm-kolobok.wav")
         BGM4:EnableLooping()
         GameOver:Load("GameOver.wav")
-        GameOver:EnableLooping()
+        //GameOver:EnableLooping()
         lowhp:Load("lowhp.wav")
         lowhp:EnableLooping()
         BGM3:Play()
@@ -265,7 +265,7 @@ end
 
 //default is 3 and 3
 //segment 1 is for speed
-//segment 2 is mor movement
+//segment 2 is for movement
 
 
     if monitor:IsKeyPressed(key:F2)
@@ -302,13 +302,17 @@ end
         end
 
         if GameOver:IsPlaying()
-            Remove(hb1)
-            Remove(hb2)
-            Remove(hb3)
-            Remove(hb4)
-            Remove(hb5)
+            //Remove(hb1)
+            hb1:Dispose()
+            //Remove(hb2)
+            hb2:Dispose()
+            //Remove(hb3)
+            hb3:Dispose()
+            //Remove(hb4)
+            hb4:Dispose()
+            //Remove(hb5)
+            hb5:Dispose()
         end
-//2-28-2018 - nope, still crash.
 
 end
     action BeginCollision(CollisionEvent2D event)
@@ -341,7 +345,6 @@ end
                 BGM2:Stop()
                 BGM3:Stop()
                 BGM4:Stop()
-                say("warning! Health systems critical!")
                     end
                if HealthBar = 1
                 hb5:Dispose()
@@ -367,9 +370,6 @@ end
                 BGM4:Stop()
                 wallhit:Play()
                 Add(GOtext)
-                Add(hbA)
-                enemy1:Dispose()
-                enemy2:Dispose()
                 GameOver:Play()
             end
     end 
