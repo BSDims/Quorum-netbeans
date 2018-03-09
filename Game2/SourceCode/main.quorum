@@ -65,7 +65,7 @@ class Main is Game, CollisionListener2D
     integer randomE = 0
     integer CurrentAnimation = 0
     number AnimationTimer = 0
-    number FrameTime = 0.5
+    number FrameTime = 1
     integer Animation = 0
 
     action Main
@@ -102,7 +102,6 @@ class Main is Game, CollisionListener2D
 
         plrshot:Load("PLRshot.ogg")
         enemy1:Load("E1F1.png")
-        enemy1:Load("E1F2.png")
         enemy1:SetName("enemy")
         enemy1:SetScale(5)
         enemy1:SetCollidable(true)
@@ -146,16 +145,24 @@ class Main is Game, CollisionListener2D
 
 
         action SetAnimation(integer Animation)
-            if CurrentAnimation = 0
-                mainGuy:Load("MGF1.png")
-                elseif CurrentAnimation = 1
-                mainGuy:Load("MGF2.png")
-            end
+            CurrentAnimation = Animation mod 3
+        if CurrentAnimation = 0
+            mainGuy:Load("MGF1.png")
+        elseif CurrentAnimation = 1
+            mainGuy:Load("MGF2.png")
         end
+        CurrentAnimation = Animation mod 3
+        if CurrentAnimation = 0
+            enemy1:Load("E1F1.png")
+        elseif CurrentAnimation = 1
+            enemy1:Load("E1F2.png")
+        end
+    end
+
 
     
     action Update(number seconds)
-        AnimationTimer = AnimationTimer + 0.5
+        AnimationTimer = AnimationTimer + seconds
 
         if AnimationTimer > FrameTime
         SetAnimation(CurrentAnimation + 1)
@@ -268,33 +275,33 @@ end
 //segment 2 is for movement
 
 
-    if monitor:IsKeyPressed(key:F2)
+    if monitor:IsKeyPressed(key:B)
         BGM1:Stop()
         BGM3:Stop()
         BGM4:Stop()
         BGM2:Play()
     end
-    if monitor:IsKeyPressed(key:F1)
+    if monitor:IsKeyPressed(key:V)
         BGM2:Stop()
         BGM3:Stop()
         BGM4:Stop()
         BGM1:Play()
     end
-    if monitor:IsKeyPressed(key:F3)
+    if monitor:IsKeyPressed(key:N)
         BGM1:Stop()
         BGM2:Stop()
         BGM4:Stop()
         BGM3:Play()
 end
 
-if monitor:IsKeyPressed(key:F4)
+if monitor:IsKeyPressed(key:M)
         BGM2:Stop()
         BGM3:Stop()
         BGM1:Stop()
         BGM4:Play()
 end
 
-        if monitor:IsKeyPressed(key:TAB)
+        if monitor:IsKeyPressed(key:C)
         BGM1:Stop()
         BGM2:Stop()
         BGM3:Stop()
@@ -302,15 +309,10 @@ end
         end
 
         if GameOver:IsPlaying()
-            //Remove(hb1)
             hb1:Dispose()
-            //Remove(hb2)
             hb2:Dispose()
-            //Remove(hb3)
             hb3:Dispose()
-            //Remove(hb4)
             hb4:Dispose()
-            //Remove(hb5)
             hb5:Dispose()
         end
 
