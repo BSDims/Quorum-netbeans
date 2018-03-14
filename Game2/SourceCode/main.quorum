@@ -40,6 +40,7 @@ class Main is Game, CollisionListener2D
     Camera camera = undefined
     Color grey 
     Audio wallhit
+    Audio EMYwallhit
     Audio emydead
     Audio plrshot
     Audio plrshotA
@@ -110,6 +111,7 @@ class Main is Game, CollisionListener2D
         emyhit:Load("EMYhit.wav")
         BGM:Load("bgm-elektrosphere.wav")
         BGM:EnableLooping()
+        EMYwallhit:Load("EMYwallhit.wav")
         GameOver:Load("GameOver.wav")
         //GameOver:EnableLooping()
         lowhp:Load("lowhp.wav")
@@ -208,7 +210,7 @@ end
         number oldy = mainGuy:GetY()
         number newy = oldy + speed * seconds
         mainGuy:SetPosition(mainGuy:GetX(), newy, mainGuy:GetZ())
-        enemy1:SetPosition(mainGuy:GetX() /2, newy, mainGuy:GetZ()/2)
+        //enemy1:SetPosition(mainGuy:GetX() /2, newy, mainGuy:GetZ()/2)
 //    Sound:SetPosition(mainGuy:GetX(), newy, mainGuy:GetZ())
     end
     if monitor:IsKeyPressed(key:DOWN)
@@ -279,8 +281,16 @@ end
 
             if ItemA:GetName() = "enemy" and ItemB:GetName() = "wall"
                 ItemA:Move(50,50)
+                hit = hit + 1
+                EMYwallhit:Play()
                end
-
+ 
+            if ItemA:GetName() = "enemy" and ItemB:GetName() = "enemy"
+                ItemA:Move(30,30)
+                ItemB:Move(30,30)
+                hit = hit + 1
+                emyhit:Play()
+               end
 
             if ItemA:GetName() = "mainGuy" and ItemB:GetName() = "enemy"
                plrhit:Play()
@@ -318,6 +328,7 @@ end
                 Remove(ItemA)
                 BGM:Stop()
                 wallhit:Play()
+                lowhp:Play()
                 Add(GOtext)
                 GameOver:Play()
             end
@@ -389,7 +400,6 @@ end
             enemy1:SetPosition(GetScreenWidth()-150, 20)
             Add(enemy1)
         end
-
 
         wall1:LoadFilledRectangle(20, GetScreenHeight())
         Add(wall1)
