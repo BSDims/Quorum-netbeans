@@ -46,10 +46,7 @@ class Main is Game, CollisionListener2D
     Audio plrhit
     Audio emyhit
     Audio doorenter
-    Audio BGM1
-    Audio BGM2
-    Audio BGM3
-    Audio BGM4
+    Audio BGM
     Audio GameOver
     Audio lowhp
     Label score
@@ -111,20 +108,13 @@ class Main is Game, CollisionListener2D
         enemy2:SetCollidable(true)
         emydead:Load("EMYdead.ogg")
         emyhit:Load("EMYhit.wav")
-        BGM1:Load("bgm-eeben4.wav")
-        BGM1:EnableLooping()
-        BGM2:Load("bgm-eeben2.wav")
-        BGM2:EnableLooping()
-        //BGM3:Load("bgm-eeben5.wav")
-        BGM3:Load("bgm-elektrosphere.wav")
-        BGM3:EnableLooping()
-        BGM4:Load("bgm-kolobok.wav")
-        BGM4:EnableLooping()
+        BGM:Load("bgm-elektrosphere.wav")
+        BGM:EnableLooping()
         GameOver:Load("GameOver.wav")
         //GameOver:EnableLooping()
         lowhp:Load("lowhp.wav")
         lowhp:EnableLooping()
-        BGM3:Play()
+        BGM:Play()
 
         hbA:Load("hbA.png")
         hbA:SetPosition(GetScreenWidth()-75,0)
@@ -274,40 +264,6 @@ end
 //segment 1 is for speed
 //segment 2 is for movement
 
-
-    if monitor:IsKeyPressed(key:B)
-        BGM1:Stop()
-        BGM3:Stop()
-        BGM4:Stop()
-        BGM2:Play()
-    end
-    if monitor:IsKeyPressed(key:V)
-        BGM2:Stop()
-        BGM3:Stop()
-        BGM4:Stop()
-        BGM1:Play()
-    end
-    if monitor:IsKeyPressed(key:N)
-        BGM1:Stop()
-        BGM2:Stop()
-        BGM4:Stop()
-        BGM3:Play()
-end
-
-if monitor:IsKeyPressed(key:M)
-        BGM2:Stop()
-        BGM3:Stop()
-        BGM1:Stop()
-        BGM4:Play()
-end
-
-        if monitor:IsKeyPressed(key:C)
-        BGM1:Stop()
-        BGM2:Stop()
-        BGM3:Stop()
-        BGM4:Stop()
-        end
-
         if GameOver:IsPlaying()
             hb1:Dispose()
             hb2:Dispose()
@@ -343,18 +299,12 @@ end
                 if HealthBar = 2
                 hb4:Dispose()
                 lowhp:Play()
-                BGM1:Stop()
-                BGM2:Stop()
-                BGM3:Stop()
-                BGM4:Stop()
+                BGM:Stop()
                     end
                if HealthBar = 1
                 hb5:Dispose()
                 Remove(ItemA)
-                BGM1:Stop()
-                BGM2:Stop()
-                BGM3:Stop()
-                BGM4:Stop()
+                BGM:Stop()
                 Add(GOtext)
                 GameOver:Play()
                 end
@@ -366,10 +316,7 @@ end
 
             if ItemA:GetName() = "mainGuy" and ItemB:GetName() = "wall"
                 Remove(ItemA)
-                BGM1:Stop()
-                BGM2:Stop()
-                BGM3:Stop()
-                BGM4:Stop()
+                BGM:Stop()
                 wallhit:Play()
                 Add(GOtext)
                 GameOver:Play()
