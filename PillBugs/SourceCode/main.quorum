@@ -176,13 +176,13 @@ if enemyrandom > randomE
                 enemy2:SetPosition(22, 22)
                 Add(enemy2)
             elseif position1 = 2
-                enemy1:SetPosition(22, GetScreenHeight()-130)
+                enemy1:SetPosition(22, GetScreenHeight()-150)
                 Add(enemy2)
             elseif position1 = 3
-                enemy2:SetPosition(GetScreenWidth()-150, GetScreenHeight()-130)
+                enemy2:SetPosition(GetScreenWidth()-150, GetScreenHeight()-150)
                 Add(enemy2)
             elseif position1 = 4
-                enemy2:SetPosition(GetScreenWidth()-150, 20)
+                enemy2:SetPosition(GetScreenWidth()-150, 22)
                 Add(enemy2)
             end
 //        end
@@ -280,10 +280,18 @@ end
         Drawable ItemB = cast(Drawable, event:GetItemB()) 
 
             if ItemA:GetName() = "enemy" and ItemB:GetName() = "wall"
-                ItemA:Move(50,50)
-                hit = hit + 1
+                integer position1 = random:RandomIntegerBetween(1,4)
+            if position1 = 1
+                ItemA:SetPosition(22, 22)
+            elseif position1 = 2
+                ItemA:SetPosition(22, GetScreenHeight()-150)
+            elseif position1 = 3
+                ItemA:SetPosition(GetScreenWidth()-150, GetScreenHeight()-150)
+            elseif position1 = 4
+                ItemA:SetPosition(GetScreenWidth()-150, 22)
                 EMYwallhit:Play()
-               end
+            end
+            end
  
             if ItemA:GetName() = "enemy" and ItemB:GetName() = "enemy"
                 ItemA:Move(30,30)
