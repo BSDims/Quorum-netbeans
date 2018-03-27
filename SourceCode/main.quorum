@@ -62,6 +62,7 @@ class Main is Game, CollisionListener2D
     integer randomE = 0
     integer CurrentAnimation = 0
     integer BulletPress = 0
+    text playershot = ""
     number AnimationTimer = 0
     number FrameTime = 1
     integer Animation = 0
@@ -103,8 +104,8 @@ class Main is Game, CollisionListener2D
         GOtext:Load("GOtext.png")
         GOtext:SetPosition(21,21)
 
-        //plrshot:Load("PLRshot.ogg")
-        //plrshotA:Load("plrshotalt.wav")
+        plrshot:Load(playershot)
+
         enemy1:Load("E1F1.png")
         enemy1:SetName("enemy")
         enemy1:SetScale(5)
@@ -194,10 +195,10 @@ if enemyrandom > randomE
     enemyrandom = 0
     randomE = random:RandomIntegerBetween(100, 500)
 end
-        BulletPress = random:RandomIntegerBetween(1, 2)
-           if BulletPress/2 mod 2 = 0
-            plrshot:Load("PLRshot.ogg")
-            plrshotA:Load("plrshotalt.wav")
+           if BulletPress mod 2 = 0
+            playershot = "PLRshot.ogg"
+            else
+            playershot = "plrshotalt.WAV"
            end
 
         if GameOver:IsPlaying()
@@ -210,10 +211,9 @@ end
 
         if GOtext:IsShowing() = true
             if monitor:IsKeyPressed(key:D)
+                BulletPress = BulletPress + 1
                 plrshot:Play()
-                elseif
-                monitor:IsKeyPressed(key:D)
-                plrshotA:Play()
+//                plrshotA:Play()
                 bullet:Load("bull.png")
                 bullet:SetName("bullet")
                 bullet:SetCollidable(true) 
@@ -249,9 +249,8 @@ end
     end
     if monitor:IsKeyPressed(key:A)
         plrshot:Play()
-        elseif
-        monitor:IsKeyPressed(key:A)
-        plrshotA:Play()
+        BulletPress = BulletPress + 1
+//        plrshotA:Play()
         bullet:Load("bull.png")
         bullet:SetName("bullet")
         bullet:SetCollidable(true) 
@@ -261,24 +260,22 @@ end
          bulletY = 3*counter
          end
          bullet:Move(bulletX, bulletY)
-if monitor:IsKeyPressed(key:W)
-plrshot:Play()
-elseif
-monitor:IsKeyPressed(key:W)
-plrshotA:Play()
-bullet:SetPosition(mainGuy:GetX()+38,mainGuy:GetY()+45)
+    if monitor:IsKeyPressed(key:W)
+        plrshot:Play()
+        BulletPress = BulletPress + 1
+        //plrshotA:Play()
+        bullet:SetPosition(mainGuy:GetX()+38,mainGuy:GetY()+45)
          bulletX = 3*counter
          bulletY = 28*counter
-end
-if monitor:IsKeyPressed(key:S)
-plrshot:Play()
-elseif
-monitor:IsKeyPressed(key:S)
-plrshotA:Play()
-bullet:SetPosition(mainGuy:GetX()+38,mainGuy:GetY()+25)
+    end
+    if monitor:IsKeyPressed(key:S)
+        plrshot:Play()
+        BulletPress = BulletPress + 1
+//        plrshotA:Play()
+        bullet:SetPosition(mainGuy:GetX()+38,mainGuy:GetY()+25)
          bulletX = 3*counter
          bulletY = -28*counter
-end
+    end
 end
         if monitor:IsKeyPressed(key:X)
                 Exit()
