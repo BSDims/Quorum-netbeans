@@ -19,9 +19,12 @@ class Main is Game, CollisionListener2D
     Drawable wall2
     Drawable wall3
     Drawable wall4
-    Drawable dooru
-    Drawable door1
+    Drawable DoorU
+    Drawable DoorL
     Drawable enemy1
+    Drawable enemy2
+    Drawable enemy3
+    Drawable enemy4
     Drawable mainGuy
     Drawable bullet
     Drawable GOtext
@@ -62,7 +65,7 @@ class Main is Game, CollisionListener2D
     integer randomE = 0
     integer CurrentAnimation = 0
     integer BulletPress = 0
-    text playershot = ""
+    text playershot = "PLRshot.wav"
     number AnimationTimer = 0
     number FrameTime = 1
     integer Animation = 0
@@ -95,7 +98,6 @@ class Main is Game, CollisionListener2D
         Add(mainGuy)
         SetAnimation(0)
 
-
         mainGuy:SetName("mainGuy")
         mainGuy:SetCollidable(true)
         wallhit:Load("wallhit.wav")
@@ -110,6 +112,22 @@ class Main is Game, CollisionListener2D
         enemy1:SetName("enemy")
         enemy1:SetScale(5)
         enemy1:SetCollidable(true)
+
+        enemy2:Load("E1F1.png")
+        enemy2:SetName("enemy")
+        enemy2:SetScale(5)
+        enemy2:SetCollidable(true)
+
+        enemy3:Load("E1F1.png")
+        enemy3:SetName("enemy")
+        enemy3:SetScale(5)
+        enemy3:SetCollidable(true)
+
+        enemy4:Load("E1F1.png")
+        enemy4:SetName("enemy")
+        enemy4:SetScale(5)
+        enemy4:SetCollidable(true)
+
         emydead:Load("EMYdead.ogg")
         emyhit:Load("EMYhit.wav")
         emyhitE:Load("EMYhitE.wav")
@@ -135,6 +153,9 @@ class Main is Game, CollisionListener2D
         hb4:SetPosition(GetScreenWidth()-60,0)
         hb5:Load("hb5.png")
         hb5:SetPosition(GetScreenWidth()-75,0)
+
+        DoorL:Load("DoorL.jpg")
+        DoorU:Load("DoorU.jpg")
         Begin()
 
     end
@@ -153,6 +174,24 @@ class Main is Game, CollisionListener2D
         elseif CurrentAnimation = 1
             enemy1:Load("E1F2.png")
         end
+        CurrentAnimation = Animation mod 3
+        if CurrentAnimation = 0
+            enemy2:Load("E1F1.png")
+        elseif CurrentAnimation = 1
+            enemy2:Load("E1F2.png")
+        end
+        CurrentAnimation = Animation mod 3
+        if CurrentAnimation = 0
+            enemy3:Load("E1F1.png")
+        elseif CurrentAnimation = 1
+            enemy3:Load("E1F2.png")
+        end
+        CurrentAnimation = Animation mod 3
+        if CurrentAnimation = 0
+            enemy4:Load("E1F1.png")
+        elseif CurrentAnimation = 1
+            enemy4:Load("E1F2.png")
+        end
     end
 
 
@@ -168,6 +207,14 @@ class Main is Game, CollisionListener2D
     counter = counter + 1
     integer speed = 250
     EnemyMovement()
+
+    if enemyrandom = 0 and enemy1:IsShowing() = true and enemy2:IsShowing() = false and enemy3:IsShowing() = false and enemy4:IsShowing() = false
+    Add(enemy2)
+    Add(enemy3)
+    Add(enemy4)
+    Add(enemy1)
+    end
+
 
    enemyrandom = enemyrandom + 1
 if enemyrandom > randomE
@@ -195,11 +242,11 @@ if enemyrandom > randomE
     enemyrandom = 0
     randomE = random:RandomIntegerBetween(100, 500)
 end
-           if BulletPress mod 2 = 0
-            playershot = "PLRshot.ogg"
-            else
-            playershot = "plrshotalt.WAV"
-           end
+           //if BulletPress mod 2 = 0
+            //playershot = "PLRshot.wav"
+            //else
+            //playershot = "plrshotalt.WAV"
+           //end
 
         if GameOver:IsPlaying()
             hb1:Dispose()
