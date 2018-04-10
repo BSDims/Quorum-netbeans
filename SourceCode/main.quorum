@@ -36,10 +36,11 @@ class Main is Game, CollisionListener2D
     Drawable hb4
     Drawable hb5
     Drawable hbA
+    Drawable HP
     InputMonitor monitor
     KeyboardEvent key
     Camera camera = undefined
-    Color grey 
+    Color Color 
     Audio wallhit
     Audio EMYwallhit
     Audio emydead
@@ -84,11 +85,11 @@ class Main is Game, CollisionListener2D
     Background1:SetScale(1)
     Background1:SetPosition(GetScreenWidth() -200, 20)
     //Background1:SetPosition((0, GetScreenHieght()0)
-    Add(Background1)
+    //Add(Background1)
     score:SetText(point)
-    score:SetColor(grey:Blue())
+    score:SetColor(Color:White())
     score:SetSize(30)
-    score:SetPosition(0, 0)
+    score:SetPosition(0, 770)
     Add(score)
         AddCollisionListener(me)
         mainGuy:Load("MGF1.png")
@@ -153,6 +154,9 @@ class Main is Game, CollisionListener2D
         hb4:SetPosition(GetScreenWidth()-60,0)
         hb5:Load("hb5.png")
         hb5:SetPosition(GetScreenWidth()-75,0)
+        HP:Load("HP.png")
+        HP:SetName("HP")
+        HP:SetPosition(GetScreenWidth()-90,0)
 
         DoorL:Load("DoorL.jpg")
         DoorU:Load("DoorU.jpg")
@@ -212,13 +216,13 @@ class Main is Game, CollisionListener2D
     Add(enemy2)
     Add(enemy3)
     Add(enemy4)
-    Add(enemy1)
+//    Add(enemy1)
     end
 
 
    enemyrandom = enemyrandom + 1
 if enemyrandom > randomE
-    if enemy1:IsShowing() = true and enemy1:IsShowing() = true
+    if enemy1:IsShowing() = true
         enemyrandom = 0
     end
     if enemy1:IsShowing() = true
@@ -493,6 +497,7 @@ end
             layer:AddToFront(hb3)
             layer:AddToFront(hb4)
             layer:AddToFront(hb5)
+            layer:AddToFront(HP)
             AddLayer(layer)
 
 end
