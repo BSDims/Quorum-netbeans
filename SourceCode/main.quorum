@@ -86,11 +86,6 @@ class Main is Game, CollisionListener2D
     Background1:SetPosition(GetScreenWidth() -200, 20)
     //Background1:SetPosition((0, GetScreenHieght()0)
     //Add(Background1)
-    score:SetText(point)
-    score:SetColor(Color:White())
-    score:SetSize(30)
-    score:SetPosition(0, 770)
-    Add(score)
         AddCollisionListener(me)
         mainGuy:Load("MGF1.png")
         //mainGuy:Load("MGF2.png")
@@ -160,6 +155,13 @@ class Main is Game, CollisionListener2D
 
         DoorL:Load("DoorL.jpg")
         DoorU:Load("DoorU.jpg")
+
+    score:SetText(point)
+    score:SetColor(Color:White())
+    score:SetSize(30)
+    score:SetPosition(0, 770)
+    Add(score)
+
         Begin()
 
     end
@@ -212,45 +214,32 @@ class Main is Game, CollisionListener2D
     integer speed = 250
     EnemyMovement()
 
-    if enemyrandom = 0 and enemy1:IsShowing() = true and enemy2:IsShowing() = false and enemy3:IsShowing() = false and enemy4:IsShowing() = false
-    Add(enemy2)
-    Add(enemy3)
-    Add(enemy4)
-//    Add(enemy1)
-    end
 
 
+
+
+    randomE = random:RandomIntegerBetween(100, 500)
    enemyrandom = enemyrandom + 1
-if enemyrandom > randomE
+if enemyrandom >= 5 or enemyrandom <= 10
     if enemy1:IsShowing() = true
-        enemyrandom = 0
-    end
-    if enemy1:IsShowing() = true
-            integer position1 = random:RandomIntegerBetween(1,4)
+            integer position1 = random:RandomIntegerBetween(1,3)
             if position1 = 1
-                enemy1:SetPosition(22, 22)
-                Add(enemy1)
+                enemy2:SetPosition(22, 22)
+                Add(enemy2)
             elseif position1 = 2
-                enemy1:SetPosition(22, GetScreenHeight()-150)
-                Add(enemy1)
+                enemy3:SetPosition(22, GetScreenHeight()-150)
+                Add(enemy3)
             elseif position1 = 3
-                enemy1:SetPosition(GetScreenWidth()-150, GetScreenHeight()-150)
-                Add(enemy1)
-            elseif position1 = 4
-                enemy1:SetPosition(GetScreenWidth()-150, 22)
+                enemy4:SetPosition(GetScreenWidth()-150, GetScreenHeight()-150)
+                Add(enemy4)
+//            elseif position1 = 4
+//                enemy1:SetPosition(GetScreenWidth()-150, 22)
             end
 //        end
     else
         Add(enemy1)
     end
-    enemyrandom = 0
-    randomE = random:RandomIntegerBetween(100, 500)
 end
-           //if BulletPress mod 2 = 0
-            //playershot = "PLRshot.wav"
-            //else
-            //playershot = "plrshotalt.WAV"
-           //end
 
         if GameOver:IsPlaying()
             hb1:Dispose()
