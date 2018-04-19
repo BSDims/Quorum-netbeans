@@ -100,7 +100,8 @@ class Main is Game, CollisionListener2D
         plrhit:Load("PLRhit.wav")
         doorenter:Load("DoorEnt.wav")
         GOtext:Load("GOtext.png")
-        GOtext:SetPosition(21,21)
+        GOtext:SetScale(5)
+        GOtext:SetPosition(20, 100)
 
         plrshot:Load(playershot)
 
@@ -220,18 +221,21 @@ class Main is Game, CollisionListener2D
 
     randomE = random:RandomIntegerBetween(100, 500)
    enemyrandom = enemyrandom + 1
-if enemyrandom >= 5 or enemyrandom <= 10
+if enemyrandom >= 10
     if enemy1:IsShowing() = true
             integer position1 = random:RandomIntegerBetween(1,3)
             if position1 = 1
                 enemy2:SetPosition(22, 22)
                 Add(enemy2)
+                enemyrandom = random:RandomIntegerBetween(1, 5)
             elseif position1 = 2
                 enemy3:SetPosition(22, GetScreenHeight()-150)
                 Add(enemy3)
+                enemyrandom = random:RandomIntegerBetween(1, 5)
             elseif position1 = 3
                 enemy4:SetPosition(GetScreenWidth()-150, GetScreenHeight()-150)
                 Add(enemy4)
+                enemyrandom = random:RandomIntegerBetween(1, 5)
 //            elseif position1 = 4
 //                enemy1:SetPosition(GetScreenWidth()-150, 22)
             end
@@ -247,6 +251,9 @@ end
             hb3:Dispose()
             hb4:Dispose()
             hb5:Dispose()
+            end
+           if monitor:IsKeyPressed(key:X) and lowhp:IsPlaying() = true
+                Exit()
         end
 
         if GOtext:IsShowing() = true
@@ -317,9 +324,6 @@ end
          bulletY = -28*counter
     end
 end
-        if monitor:IsKeyPressed(key:X)
-                Exit()
-            end
 end
 
     action BeginCollision(CollisionEvent2D event)
@@ -392,8 +396,8 @@ end
         Drawable ItemB = cast(Drawable, event:GetItemB())
 
             if hit >= random:RandomIntegerBetween(1, 5) and ItemA:GetName() = "enemy" and ItemB:GetName() = "bullet"
-                Remove(ItemA)
-                points = points + 1
+               ItemA:Dispose()
+                 points = points + 1
             end
     end
 
@@ -409,28 +413,17 @@ end
             //monitor:IsKeyPressed(key:RIGHT)
                 //enemy1:SetPosition(playerX-enemy1X/2, playerY-enemy1Y/2, 0)
 
-        integer m3 = random:RandomIntegerBetween(1,4)
-        if m3 = 1
+        integer m10 = random:RandomIntegerBetween(1,4)
+        if m10 = 1
             Background1:Move(0,10)
-        elseif m3 = 2
+        elseif m10 = 2
             Background1:Move(0,-10)
-        elseif m3 = 3
+        elseif m10 = 3
             Background1:Move(10,0)
-        elseif m3 = 4
+        elseif m10 = 4
             Background1:Move(-10,0)
         end
         
-        integer m2 = random:RandomIntegerBetween(1,4)
-        if m2 = 1
-            enemy1:Move(0,10)
-        elseif m2 = 2
-            enemy1:Move(0,-10)
-        elseif m2 = 3
-            enemy1:Move(10,0)
-        elseif m2 = 4
-            enemy1:Move(-10,0)
-        end
-
         integer m1 = random:RandomIntegerBetween(1,4)
         if m1 = 1
             enemy1:Move(0,10)
@@ -440,6 +433,39 @@ end
             enemy1:Move(10,0)
         elseif m1 = 4
             enemy1:Move(-10,0)
+        end
+
+        integer m2 = random:RandomIntegerBetween(1,4)
+        if m2 = 1
+            enemy2:Move(0,10)
+        elseif m2 = 2
+            enemy2:Move(0,-10)
+        elseif m2 = 3
+            enemy2:Move(10,0)
+        elseif m2 = 4
+            enemy2:Move(-10,0)
+        end
+
+        integer m3 = random:RandomIntegerBetween(1,4)
+        if m3 = 1
+            enemy3:Move(0,10)
+        elseif m3 = 2
+            enemy3:Move(0,-10)
+        elseif m3 = 3
+            enemy3:Move(10,0)
+        elseif m3 = 4
+            enemy3:Move(-10,0)
+        end
+
+        integer m4 = random:RandomIntegerBetween(1,4)
+        if m4 = 1
+            enemy4:Move(0,10)
+        elseif m4 = 2
+            enemy4:Move(0,-10)
+        elseif m4 = 3
+            enemy4:Move(10,0)
+        elseif m4 = 4
+            enemy4:Move(-10,0)
         end
 end
         
