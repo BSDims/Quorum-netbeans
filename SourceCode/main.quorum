@@ -137,6 +137,7 @@ class Main is Game, CollisionListener2D
         lowhp:EnableLooping()
         BGM:Play()
 
+
         hbA:Load("hbA.png")
         hbA:SetPosition(GetScreenWidth()-75,0)
         Add(hbA)
@@ -252,9 +253,44 @@ end
             hb4:Dispose()
             hb5:Dispose()
             end
-           if monitor:IsKeyPressed(key:X) and lowhp:IsPlaying() = true
-                Exit()
+
+
+        if monitor:IsKeyPressed(key:X) and lowhp:IsPlaying() = true
+        Exit()
         end
+
+        if monitor:IsKeyPressed(key:W) and GOtext:IsShowing() = true
+        Exit()
+        end
+
+        if monitor:IsKeyPressed(key:A) and GOtext:IsShowing() = true
+        Exit()
+        end
+
+        if monitor:IsKeyPressed(key:S) and GOtext:IsShowing() = true
+        Exit()
+        end
+
+        if monitor:IsKeyPressed(key:D) and GOtext:IsShowing() = true
+        Exit()
+        end
+
+        if monitor:IsKeyPressed(key:UP) and GOtext:IsShowing() = true
+        Exit()
+        end
+
+        if monitor:IsKeyPressed(key:DOWN) and GOtext:IsShowing() = true
+        Exit()
+        end
+
+        if monitor:IsKeyPressed(key:LEFT) and GOtext:IsShowing() = true
+        Exit()
+        end
+
+        if monitor:IsKeyPressed(key:RIGHT) and GOtext:IsShowing() = true
+        Exit()
+        end
+
 
         if GOtext:IsShowing() = true
             if monitor:IsKeyPressed(key:D)
@@ -265,7 +301,7 @@ end
                 bullet:SetName("bullet")
                 bullet:SetCollidable(true) 
                 Add(bullet)
-                 bullet:SetPosition(mainGuy:GetX()+70,mainGuy:GetY()+25)
+                 bullet:SetPosition(mainGuy:GetX()+70,mainGuy:GetY()+30)
                  bulletX = 28*counter
                  bulletY = 3*counter
             end
@@ -302,7 +338,7 @@ end
         bullet:SetName("bullet")
         bullet:SetCollidable(true) 
         Add(bullet)
-         bullet:SetPosition(mainGuy:GetX(),mainGuy:GetY()+25)
+         bullet:SetPosition(mainGuy:GetX(),mainGuy:GetY()+30)
          bulletX = -25*counter
          bulletY = 3*counter
          end
