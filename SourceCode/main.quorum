@@ -42,7 +42,7 @@ class Main is Game, CollisionListener2D
     Camera camera = undefined
     Color Color 
     Audio wallhit
-    Audio EMYwallhit
+    Audio emywallhit
     Audio emydead
     Audio plrshot
     Audio plrshotA
@@ -51,8 +51,11 @@ class Main is Game, CollisionListener2D
     Audio emyhitE
     Audio doorenter
     Audio BGM
-    Audio GameOver
+    Audio gameover
     Audio lowhp
+    Audio Pexplode
+    Audio powerup
+    Audio Espawn
     Label score
     text point = ""
     integer shots = 5
@@ -66,7 +69,6 @@ class Main is Game, CollisionListener2D
     integer randomE = 0
     integer CurrentAnimation = 0
     integer BulletPress = 0
-    text playershot = "PLRshot.wav"
     number AnimationTimer = 0
     number FrameTime = 1
     integer Animation = 0
@@ -102,8 +104,10 @@ class Main is Game, CollisionListener2D
         GOtext:Load("GOtext.png")
         GOtext:SetScale(5)
         GOtext:SetPosition(20, 100)
+        Add(GOtext)
+        GOtext:Hide()
 
-        plrshot:Load(playershot)
+        plrshotA:Load("plrshotalt.wav")
 
         enemy1:Load("E1F1.png")
         enemy1:SetName("enemy")
@@ -130,13 +134,16 @@ class Main is Game, CollisionListener2D
         emyhitE:Load("EMYhitE.wav")
         BGM:Load("bgm-elektrosphere.wav")
         BGM:EnableLooping()
-        EMYwallhit:Load("EMYwallhit.wav")
-        GameOver:Load("GameOver.wav")
-        //GameOver:EnableLooping()
+        emywallhit:Load("EMYwallhit.wav")
+        gameover:Load("GameOver.wav")
+        //gameover:EnableLooping()
         lowhp:Load("lowhp.wav")
         lowhp:EnableLooping()
         BGM:Play()
-
+        
+        powerup:Load("PowerUp.wav")
+        Espawn:Load("EMYspawn.wav")
+        Pexplode:Load("PLRexplode.wav")
 
         hbA:Load("hbA.png")
         hbA:SetPosition(GetScreenWidth()-75,0)
@@ -218,11 +225,9 @@ class Main is Game, CollisionListener2D
 
 
 
-
-
     randomE = random:RandomIntegerBetween(100, 500)
-   enemyrandom = enemyrandom + 1
-if enemyrandom >= 10
+    enemyrandom = enemyrandom + 1
+    if enemyrandom >= 10 
     if enemy1:IsShowing() = true
             integer position1 = random:RandomIntegerBetween(1,3)
             if position1 = 1
@@ -237,8 +242,8 @@ if enemyrandom >= 10
                 enemy4:SetPosition(GetScreenWidth()-150, GetScreenHeight()-150)
                 Add(enemy4)
                 enemyrandom = random:RandomIntegerBetween(1, 5)
-//            elseif position1 = 4
-//                enemy1:SetPosition(GetScreenWidth()-150, 22)
+                elseif position1 = 4
+                enemy1:SetPosition(GetScreenWidth()-150, 22)
             end
 //        end
     else
@@ -246,7 +251,7 @@ if enemyrandom >= 10
     end
 end
 
-        if GameOver:IsPlaying()
+        if gameover:IsPlaying()
             hb1:Dispose()
             hb2:Dispose()
             hb3:Dispose()
@@ -255,48 +260,10 @@ end
             end
 
 
-        if monitor:IsKeyPressed(key:X) and lowhp:IsPlaying() = true
-        Exit()
-        end
-
-        if monitor:IsKeyPressed(key:W) and GOtext:IsShowing() = true
-        Exit()
-        end
-
-        if monitor:IsKeyPressed(key:A) and GOtext:IsShowing() = true
-        Exit()
-        end
-
-        if monitor:IsKeyPressed(key:S) and GOtext:IsShowing() = true
-        Exit()
-        end
-
-        if monitor:IsKeyPressed(key:D) and GOtext:IsShowing() = true
-        Exit()
-        end
-
-        if monitor:IsKeyPressed(key:UP) and GOtext:IsShowing() = true
-        Exit()
-        end
-
-        if monitor:IsKeyPressed(key:DOWN) and GOtext:IsShowing() = true
-        Exit()
-        end
-
-        if monitor:IsKeyPressed(key:LEFT) and GOtext:IsShowing() = true
-        Exit()
-        end
-
-        if monitor:IsKeyPressed(key:RIGHT) and GOtext:IsShowing() = true
-        Exit()
-        end
-
-
-        if GOtext:IsShowing() = true
-            if monitor:IsKeyPressed(key:D)
+        if GOtext:IsShowing() = false
+             if monitor:IsKeyPressed(key:D)
                 BulletPress = BulletPress + 1
-                plrshot:Play()
-//                plrshotA:Play()
+                plrshotA:Play()
                 bullet:Load("bull.png")
                 bullet:SetName("bullet")
                 bullet:SetCollidable(true) 
@@ -331,7 +298,7 @@ end
 //    Sound:SetPosition(mainGuy:GetX(), newY, mainGuy:GetZ())
     end
     if monitor:IsKeyPressed(key:A)
-        plrshot:Play()
+        plrshotA:Play()
         BulletPress = BulletPress + 1
 //        plrshotA:Play()
         bullet:Load("bull.png")
@@ -344,7 +311,7 @@ end
          end
          bullet:Move(bulletX, bulletY)
     if monitor:IsKeyPressed(key:W)
-        plrshot:Play()
+        plrshotA:Play()
         BulletPress = BulletPress + 1
         //plrshotA:Play()
         bullet:SetPosition(mainGuy:GetX()+38,mainGuy:GetY()+45)
@@ -352,12 +319,16 @@ end
          bulletY = 28*counter
     end
     if monitor:IsKeyPressed(key:S)
-        plrshot:Play()
+        plrshotA:Play()
         BulletPress = BulletPress + 1
 //        plrshotA:Play()
         bullet:SetPosition(mainGuy:GetX()+38,mainGuy:GetY()+25)
          bulletX = 3*counter
          bulletY = -28*counter
+    end
+ else
+    if monitor:IsKeyPressed(key:X)
+        Exit()
     end
 end
 end
@@ -376,7 +347,7 @@ end
                 ItemA:SetPosition(GetScreenWidth()-150, GetScreenHeight()-150)
             elseif position1 = 4
                 ItemA:SetPosition(GetScreenWidth()-150, 22)
-                EMYwallhit:Play()
+                emywallhit:Play()
             end
             end
  
@@ -408,8 +379,9 @@ end
                 hb5:Dispose()
                 Remove(ItemA)
                 BGM:Stop()
-                Add(GOtext)
-                GameOver:Play()
+                Pexplode:PlayUntilDone()
+                GOtext:Show()
+                gameover:Play()
                 end
             end
             if ItemA:GetName() = "enemy" and ItemB:GetName() = "bullet"
@@ -420,10 +392,10 @@ end
             if ItemA:GetName() = "mainGuy" and ItemB:GetName() = "wall"
                 Remove(ItemA)
                 BGM:Stop()
-                wallhit:Play()
-                Add(GOtext)
+                wallhit:PlayUntilDone()
+                gameover:Play()
+                GOtext:Show()
                 lowhp:Play()
-                GameOver:Play()
             end
     end 
 
@@ -442,12 +414,6 @@ end
         integer playerY = cast(integer, mainGuy:GetY())
         integer enemy1X = cast(integer, enemy1:GetX())
         integer enemy1Y = cast(integer, enemy1:GetY())
-
-        //if monitor:IsKeyPressed(key:DOWN) or
-            //monitor:IsKeyPressed(key:UP) or
-            //monitor:IsKeyPressed(key:LEFT) or
-            //monitor:IsKeyPressed(key:RIGHT)
-                //enemy1:SetPosition(playerX-enemy1X/2, playerY-enemy1Y/2, 0)
 
         integer m10 = random:RandomIntegerBetween(1,4)
         if m10 = 1
