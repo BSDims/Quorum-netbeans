@@ -1,8 +1,6 @@
 use Libraries.Game.Game
 use Libraries.Game.Graphics.Drawable
 use Libraries.Game.Graphics.Camera
-use Libraries.Game.Graphics.AmbientLight
-use Libraries.Game.Graphics.DirectionalLight
 use Libraries.Game.Graphics.Color
 use Libraries.Game.InputMonitor
 use Libraries.Interface.Events.KeyboardEvent
@@ -14,6 +12,8 @@ use Libraries.Game.Graphics.Label
 use Libraries.Game.Layer2D
 
 class Main is Game, CollisionListener2D
+    Drawable ItemA
+    Drawable ItemB
     Random random
     Drawable wall1
     Drawable wall2
@@ -45,7 +45,6 @@ class Main is Game, CollisionListener2D
     Audio plrshotA
     Audio plrhit
     Audio emyhit
-    Audio emyhitE
     Audio doorenter
     Audio BGM
     Audio gameover
@@ -56,8 +55,6 @@ class Main is Game, CollisionListener2D
     Audio Espawn
     Label score
     text point = ""
-    integer shots = 5
-    integer bulltime = shots - 1
     integer points = 0
     integer hit = 0
     integer bulletX = 0
@@ -70,7 +67,10 @@ class Main is Game, CollisionListener2D
     number AnimationTimer = 0
     number FrameTime = 1
     integer Animation = 0
-    integer AltHit = 0    
+    integer AltHitE1 = 0
+    integer AltHitE2 = 0
+    integer AltHitE3 = 0
+    integer AltHitE4 = 0    
 //integer DoorRandom = 0
 
     action Main
@@ -84,8 +84,8 @@ class Main is Game, CollisionListener2D
     Background1:SetScale(1.2)
     Add(Background1)
         AddCollisionListener(me)
+        mainGuy:LoadFilledRectangle(100, 100, Color:Cyan())
         mainGuy:Load("MGF1.png")
-        mainGuy:Load("MGF2.png")
         mainGuy:SetScale(5)
         mainGuy:SetPosition((GetScreenWidth()/2)-52.5,(GetScreenHeight()/2)-52.5)
         Add(mainGuy)
@@ -104,35 +104,33 @@ class Main is Game, CollisionListener2D
 
         plrshotA:Load("plrshotalt.wav")
 
-        enemy1:Load("E1F1.png")
-//    enemy1:LoadFilledRectangle(20, 20, Color:Blue())
+//        enemy1:Load("E1F1.png")
+        enemy1:LoadFilledRectangle(20, 20, Color:Blue())
         enemy1:SetName("enemy")
         enemy1:SetScale(5)
         enemy1:SetCollidable(true)
 
-        enemy2:Load("E1F1.png")
-//    enemy2:LoadFilledRectangle(20, 20, Color:Green())
+//        enemy2:Load("E1F1.png")
+        enemy2:LoadFilledRectangle(20, 20, Color:Green())
         enemy2:SetName("enemy")
         enemy2:SetScale(5)
         enemy2:SetCollidable(true)
 
-        enemy3:Load("E1F1.png")
-//    enemy3:LoadFilledRectangle(20, 20, Color:Red())
+//        enemy3:Load("E1F1.png")
+        enemy3:LoadFilledRectangle(20, 20, Color:Red())
         enemy3:SetName("enemy")
         enemy3:SetScale(5)
         enemy3:SetCollidable(true)
 
-        enemy4:Load("E1F1.png")
-//    enemy4:LoadFilledRectangle(20, 20, Color:Yellow())
+//        enemy4:Load("E1F1.png")
+        enemy4:LoadFilledRectangle(20, 20, Color:Yellow())
         enemy4:SetName("enemy")
         enemy4:SetScale(5)
         enemy4:SetCollidable(true)
 
         emydead:Load("EMYdead.ogg")
         emyhit:Load("EMYhit.wav")
-        emyhitE:Load("EMYhitE.wav")
-            //enemyhitE is enemy hitting another
-        BGM:Load("bgm-elektrosphere.wav")
+        BGM:Load("bgm-eeben4.wav")
         BGM:EnableLooping()
         emywallhit:Load("EMYwallhit.wav")
         gameover:Load("GameOver.wav")
@@ -187,38 +185,41 @@ class Main is Game, CollisionListener2D
     score:SetPosition(0, 0)
     Add(score)
 
-    AltHit = random:RandomIntegerBetween(1, 5)
+    AltHitE1 = random:RandomIntegerBetween(1, 5)
+    AltHitE2 = random:RandomIntegerBetween(1, 5)
+    AltHitE3 = random:RandomIntegerBetween(1, 5)
+    AltHitE4 = random:RandomIntegerBetween(1, 5)
 
         Begin()
 
     end
 
         action SetAnimation(integer Animation)
-            CurrentAnimation = Animation mod 3
+            CurrentAnimation = Animation mod 2
         if CurrentAnimation = 0
             mainGuy:Load("MGF1.png")
         elseif CurrentAnimation = 1
             mainGuy:Load("MGF2.png")
         end
-        CurrentAnimation = Animation mod 3
+        CurrentAnimation = Animation mod 2
         if CurrentAnimation = 0
             enemy1:Load("E1F1.png")
         elseif CurrentAnimation = 1
             enemy1:Load("E1F2.png")
         end
-        CurrentAnimation = Animation mod 3
+        CurrentAnimation = Animation mod 2
         if CurrentAnimation = 0
             enemy2:Load("E1F1.png")
         elseif CurrentAnimation = 1
             enemy2:Load("E1F2.png")
         end
-        CurrentAnimation = Animation mod 3
+        CurrentAnimation = Animation mod 2
         if CurrentAnimation = 0
             enemy3:Load("E1F1.png")
         elseif CurrentAnimation = 1
             enemy3:Load("E1F2.png")
         end
-        CurrentAnimation = Animation mod 3
+        CurrentAnimation = Animation mod 2
         if CurrentAnimation = 0
             enemy4:Load("E1F1.png")
         elseif CurrentAnimation = 1
@@ -229,8 +230,13 @@ class Main is Game, CollisionListener2D
 
     
     action Update(number seconds)
-        AnimationTimer = AnimationTimer + seconds
-
+        AnimationTimer = AnimationTimer + 1
+          if AltHitE1 >= 10
+               enemy1:Dispose()
+               emydead:Play()
+               points = points + 1
+               AltHitE1 = 0
+          end
         if AnimationTimer > FrameTime
         SetAnimation(CurrentAnimation + 1)
         end
@@ -272,7 +278,7 @@ end
             hb3:Dispose()
             hb4:Dispose()
             hb5:Dispose()
-            end
+        end
 
         if GOtext:IsShowing() = false
              if monitor:IsKeyPressed(key:D)
@@ -344,7 +350,18 @@ end
     if monitor:IsKeyPressed(key:F2)
         BGM:Play()
     end
-
+        if monitor:IsKeyPressed(key:H)
+            enemy1:Dispose()
+            end
+            if monitor:IsKeyPressed(key:J)
+            enemy2:Dispose()
+            end
+            if monitor:IsKeyPressed(key:K)
+            enemy3:Dispose()
+            end
+            if monitor:IsKeyPressed(key:L)
+            enemy4:Dispose()
+            end
  else
     if monitor:IsKeyPressed(key:X)
         Exit()
@@ -353,35 +370,34 @@ end
 end
 
     action BeginCollision(CollisionEvent2D event)
-        Drawable ItemA = cast(Drawable, event:GetItemA())
-        Drawable ItemB = cast(Drawable, event:GetItemB()) 
+        ItemA = cast(Drawable, event:GetItemA())
+        ItemB = cast(Drawable, event:GetItemB())
 
             if ItemA:GetName() = "enemy" and ItemB:GetName() = "wall"
                 integer position1 = random:RandomIntegerBetween(1,4)
-            if position1 = 1
-                ItemA:SetPosition(22, 22)
-            elseif position1 = 2
-                ItemA:SetPosition(22, GetScreenHeight()-150)
-            elseif position1 = 3
-                ItemA:SetPosition(GetScreenWidth()-150, GetScreenHeight()-150)
-            elseif position1 = 4
-                ItemA:SetPosition(GetScreenWidth()-150, 22)
-                emywallhit:Play()
+                output "position " + position1
+                if position1 = 1
+                    ItemA:SetPosition(22, 22)
+                elseif position1 = 2
+                    ItemA:SetPosition(22, GetScreenHeight()-150)
+                elseif position1 = 3
+                    ItemA:SetPosition(GetScreenWidth()-150, GetScreenHeight()-150)
+                elseif position1 = 4
+                    ItemA:SetPosition(GetScreenWidth()-150, 22)
+                    emywallhit:Play()
+                end
             end
-            end
- 
-            if ItemA:GetName() = "enemy" and ItemB:GetName() = "enemy"
-                emyhitE:Play()
-                hit = AltHit + 1
-               end
 
-            //if ItemA:GetName() = "mainGuy" and ItemB:GetName() = "Door"
-            //doorenter:Play()
-            //end
+            /*if ItemA:GetName() = "mainGuy" and ItemB:GetName() = "Door"
+            doorenter:Play()
+            end*/
 
-            if ItemA:GetName() = "mainGuy" and ItemB:GetName() = "enemy"
-               plrhit:Play()
+            if ItemA:GetName() = "mainGuy" and ItemB = enemy1
+               BGM:Pause()
+               plrhit:PlayUntilDone()
+               BGM:Resume()
                HealthBar = HealthBar - 1
+               
                if HealthBar = 5
                 hb1:Dispose()
                     end
@@ -405,34 +421,137 @@ end
                 gameover:Play()
                 end
             end
-            if ItemA:GetName() = "enemy" and ItemB:GetName() = "bullet"
-                emyhit:Play()
-                emyhitE:Play()
-                hit = AltHit + 1
+
+            if ItemA:GetName() = "mainGuy" and ItemB = enemy2
+               plrhit:Play()
+               HealthBar = HealthBar - 1
+               
+               if HealthBar = 5
+                hb1:Dispose()
+                    end
+                if HealthBar = 4
+                hb2:Dispose()
+                    end
+                if HealthBar = 3
+                hb3:Dispose()
+                    end
+                if HealthBar = 2
+                hb4:Dispose()
+                lowhp:Play()
+                BGM:Stop()
+                    end
+               if HealthBar = 1
+                hb5:Dispose()
+                Remove(ItemA)
+                BGM:Stop()
+                Pexplode:PlayUntilDone()
+                GOtext:Show()
+                gameover:Play()
+                end
+
+                if ItemA:GetName() = "mainGuy" and ItemB = enemy3
+               plrhit:Play()
+               HealthBar = HealthBar - 1
+               
+               if HealthBar = 5
+                hb1:Dispose()
+                    end
+                if HealthBar = 4
+                hb2:Dispose()
+                    end
+                if HealthBar = 3
+                hb3:Dispose()
+                    end
+                if HealthBar = 2
+                hb4:Dispose()
+                lowhp:Play()
+                BGM:Stop()
+                    end
+               if HealthBar = 1
+                hb5:Dispose()
+                Remove(ItemA)
+                BGM:Stop()
+                Pexplode:PlayUntilDone()
+                GOtext:Show()
+                gameover:Play()
+                end
+            end
+
+                if ItemA:GetName() = "mainGuy" and ItemB = enemy4
+               plrhit:Play()
+               HealthBar = HealthBar - 1
+               
+               if HealthBar = 5
+                hb1:Dispose()
+                    end
+                if HealthBar = 4
+                hb2:Dispose()
+                    end
+                if HealthBar = 3
+                hb3:Dispose()
+                    end
+                if HealthBar = 2
+                hb4:Dispose()
+                lowhp:Play()
+                BGM:Stop()
+                    end
+               if HealthBar = 1
+                hb5:Dispose()
+                Remove(ItemA)
+                BGM:Stop()
+                Pexplode:PlayUntilDone()
+                GOtext:Show()
+                gameover:Play()
+                end
+            end
+            end
+
+            if ItemA = enemy1 and ItemB:GetName() = "bullet"
+                BGM:Pause()
+                emyhit:PlayUntilDone()
+                BGM:Resume()
+                AltHitE1 = AltHitE1 + 1
+                output "AltHitE1 Bullet " +AltHitE1
+            end
+            
+            if ItemA = enemy2 and ItemB:GetName() = "bullet"
+                BGM:Pause()
+                emyhit:PlayUntilDone()
+                BGM:Resume()
+                AltHitE2 = AltHitE2 + 1
+                output "AltHitE2 Bullet " +AltHitE2
+            end
+
+            if ItemA = enemy3 and ItemB:GetName() = "bullet"
+                BGM:Pause()
+                emyhit:PlayUntilDone()
+                BGM:Resume()
+                AltHitE3 = AltHitE3 + 1
+                output "AltHitE3 Bullet " +AltHitE3
+            end
+
+            if ItemA = enemy4 and ItemB:GetName() = "bullet"
+                BGM:Pause()
+                emyhit:PlayUntilDone()
+                BGM:Resume()
+                AltHitE4 = AltHitE4 + 1
+                output "AltHitE4 Bullet " +AltHitE4
             end
 
             if ItemA:GetName() = "mainGuy" and ItemB:GetName() = "wall"
                 Remove(ItemA)
                 BGM:Stop()
                 wallhit:PlayUntilDone()
-                gameover:Play()
                 GOtext:Show()
+                gameover:Play()
                 lowhp:Play()
             end
     end 
 
     action FinishCollision(CollisionEvent2D event)
-        Drawable ItemA = cast(Drawable, event:GetItemA())
-        Drawable ItemB = cast(Drawable, event:GetItemB())
+        ItemA = cast(Drawable, event:GetItemA())
+        ItemB = cast(Drawable, event:GetItemB())
 
-            if hit >= AltHit and ItemA:GetName() = "enemy" and ItemB:GetName() = "bullet"
-               ItemA:Dispose()
-                 points = points + 1
-            end
-
-            if hit >= random:RandomIntegerBetween(1, 5) and ItemA:GetName() = "enemy" and ItemB:GetName() = "enemy"
-               ItemA:Dispose()
-            end
     end
 
     action EnemyMovement()
@@ -523,13 +642,13 @@ end
         wall4:SetCollidable(true)
         
         Layer2D layer
+            layer:AddToFront(score)
             layer:AddToFront(hb1)
             layer:AddToFront(hb2)
             layer:AddToFront(hb3)
             layer:AddToFront(hb4)
             layer:AddToFront(hb5)
             layer:AddToFront(HP)
-            layer:AddToFront(score)
             AddLayer(layer)
 
 end
