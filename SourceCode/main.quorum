@@ -86,7 +86,7 @@ class Main is Game, CollisionListener2D
 
     action CreateGame
     randomE = random:RandomIntegerBetween(5,15)
-    Background1:Load("stripped2.png")
+    Background1:Load("bg1.png")
     Background1:SetPosition(20, 20)
     Background1:SetScale(1.2)
     Add(Background1)
