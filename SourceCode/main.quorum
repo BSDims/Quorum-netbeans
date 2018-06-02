@@ -99,7 +99,7 @@ class Main is Game, CollisionListener2D
 
         mainGuy:SetName("mainGuy")
         mainGuy:SetCollidable(true)
-        wallhit:Load("WallHit.wav")
+        wallhit:Load("WallHit.ogg")
         plrhit:Load("PLRhit.wav")
         GOtext:Load("GOtext.png")
         GOtext:SetScale(5)
