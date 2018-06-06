@@ -57,7 +57,7 @@ class Main is Game, CollisionListener2D
     Audio powerup
     Audio Espawn
     Label score
-    text point = ""
+    text point = "Zero"
     integer points = 0
     integer hit = 0
     integer bulletX = 0
@@ -74,10 +74,10 @@ class Main is Game, CollisionListener2D
     integer AltHitE2 = 0
     integer AltHitE3 = 0
     integer AltHitE4 = 0
-    integer TimerE1 = 0
-    integer TimerE2 = 0
-    integer TimerE3 = 0
-    integer TimerE4 = 0
+    integer timerE1 = 0
+    integer timerE2 = 0
+    integer timerE3 = 0
+    integer timerE4 = 0
 
 
     action Main
@@ -85,6 +85,17 @@ class Main is Game, CollisionListener2D
     end
 
     action CreateGame
+
+        Layer2D layer
+            layer:AddToFront(score)
+            layer:AddToFront(hb1)
+            layer:AddToFront(hb2)
+            layer:AddToFront(hb3)
+            layer:AddToFront(hb4)
+            layer:AddToFront(hb5)
+            layer:AddToFront(HP)
+
+
     randomE = random:RandomIntegerBetween(5,15)
     Background1:Load("bg1.png")
     Background1:SetPosition(20, 20)
@@ -142,7 +153,6 @@ class Main is Game, CollisionListener2D
         BGM:EnableLooping()
         emywallhit:Load("EMYwallhit.wav")
         gameover:Load("GameOver.wav")
-        //gameover:EnableLooping()
         lowhp:Load("lowhp.wav")
         lowhp:EnableLooping()
         hpup:Load("HPup.wav")
@@ -169,17 +179,12 @@ class Main is Game, CollisionListener2D
         HP:SetName("HP")
         HP:SetPosition(GetScreenWidth()-90,0)
 
-    score:SetText(point)
+
     score:SetColor(Color:White())
-    score:SetSize(30)
-    score:SetPosition(0, 0)
-    Add(score)
+    score:SetSize(25)
+    score:SetPosition(1, 1)
 
-    AltHitE1 = random:RandomIntegerBetween(1, 5)
-    AltHitE2 = random:RandomIntegerBetween(1, 5)
-    AltHitE3 = random:RandomIntegerBetween(1, 5)
-    AltHitE4 = random:RandomIntegerBetween(1, 5)
-
+    AddLayer(layer)
         Begin()
 
     end
@@ -215,11 +220,13 @@ class Main is Game, CollisionListener2D
         elseif CurrentAnimation = 1
             enemy4:Load("E1F2.png")
         end
-    end  
 
+    end
 
     
     action Update(number seconds)
+    score:SetText(point)
+    Add(score)
         AnimationTimer = AnimationTimer + 1
         if AnimationTimer > FrameTime
         SetAnimation(CurrentAnimation + 1)
@@ -229,25 +236,118 @@ class Main is Game, CollisionListener2D
     emydeadE1:Play()
     points = points + 1
     AltHitE1 = 0
+    timerE1 = 0
     end
     if AltHitE2 = 3
     Remove(enemy2)
     emydeadE2:Play()
     points = points + 1
     AltHitE2 = 0
+    timerE2 = 0
     end
     if AltHitE3 = 3
     Remove(enemy3)
     emydeadE3:Play()
     points = points + 1
     AltHitE3 = 0
+    timerE3 = 0
     end
     if AltHitE4 = 3
     Remove(enemy4)
     emydeadE4:Play()
     points = points + 1
     AltHitE4 = 0
+    timerE4 = 0
     end
+
+    if emydeadE1:IsPlaying() = true and timerE1 = 15
+        integer position1 = random:RandomIntegerBetween(1,4)
+        if position1 = 1
+            enemy1:SetPosition(22, 22)
+            Add(enemy1)
+            enemy1:SetCollidable(true)
+        elseif position1 = 2
+            enemy1:SetPosition(22, GetScreenHeight()-130)
+            Add(enemy1)
+            enemy1:SetCollidable(true)
+        elseif position1 = 3
+            enemy1:SetPosition(GetScreenWidth()-150, GetScreenHeight()-130)
+            Add(enemy1)
+            enemy1:SetCollidable(true)
+        elseif position1 = 4
+            enemy1:SetPosition(GetScreenWidth()-150, 20)
+            Add(enemy1)
+            enemy1:SetCollidable(true)
+    end
+    end
+
+    if emydeadE2:IsPlaying() = true and timerE2 = 15
+        integer position1 = random:RandomIntegerBetween(1,4)
+        if position1 = 1
+            enemy2:SetPosition(22, 22)
+            Add(enemy2)
+            enemy2:SetCollidable(true)
+        elseif position1 = 2
+            enemy2:SetPosition(22, GetScreenHeight()-130)
+            Add(enemy2)
+            enemy2:SetCollidable(true)
+        elseif position1 = 3
+            enemy2:SetPosition(GetScreenWidth()-150, GetScreenHeight()-130)
+            Add(enemy2)
+            enemy2:SetCollidable(true)
+        elseif position1 = 4
+            enemy2:SetPosition(GetScreenWidth()-150, 20)
+            Add(enemy2)
+            enemy2:SetCollidable(true)
+        end
+    end
+
+    if emydeadE3:IsPlaying() = true and timerE3 = 15
+        integer position1 = random:RandomIntegerBetween(1,4)
+        if position1 = 1
+            enemy3:SetPosition(22, 22)
+            Add(enemy3)
+            enemy3:SetCollidable(true)
+        elseif position1 = 2
+            enemy3:SetPosition(22, GetScreenHeight()-130)
+            Add(enemy3)
+            enemy3:SetCollidable(true)
+        elseif position1 = 3
+            enemy3:SetPosition(GetScreenWidth()-150, GetScreenHeight()-130)
+            Add(enemy3)
+            enemy3:SetCollidable(true)
+        elseif position1 = 4
+            enemy3:SetPosition(GetScreenWidth()-150, 20)
+            Add(enemy3)
+            enemy3:SetCollidable(true)
+            end
+    end
+
+    if emydeadE4:IsPlaying() = true and timerE4 = 15
+        integer position1 = random:RandomIntegerBetween(1,4)
+        if position1 = 1
+            enemy4:SetPosition(22, 22)
+            Add(enemy4)
+            enemy4:SetCollidable(true)
+        elseif position1 = 2
+            enemy4:SetPosition(22, GetScreenHeight()-130)
+            Add(enemy4)
+            enemy4:SetCollidable(true)
+        elseif position1 = 3
+            enemy4:SetPosition(GetScreenWidth()-150, GetScreenHeight()-130)
+            Add(enemy4)
+            enemy4:SetCollidable(true)
+        elseif position1 = 4
+            enemy4:SetPosition(GetScreenWidth()-150, 20)
+            Add(enemy4)
+            enemy4:SetCollidable(true)
+            end
+    end
+
+    timerE1 = timerE1 + 1
+    timerE2 = timerE2 + 1
+    timerE3 = timerE3 + 1
+    timerE4 = timerE4 + 1
 
     point = cast(text, points)
     integer counter =  0
@@ -334,22 +434,6 @@ class Main is Game, CollisionListener2D
     if monitor:IsKeyPressed(key:F2)
         BGM:Play()
     end
-        if monitor:IsKeyPressed(key:H)
-            Remove(enemy1)
-            emydeadE1:Play()
-            end
-            if monitor:IsKeyPressed(key:J)
-            Remove(enemy2)
-            emydeadE2:Play()
-            end
-            if monitor:IsKeyPressed(key:K)
-            Remove(enemy3)
-            emydeadE3:Play()
-            end
-            if monitor:IsKeyPressed(key:L)
-            Remove(enemy4)
-            emydeadE4:Play()
-            end
  else
     if monitor:IsKeyPressed(key:X)
         Exit()
@@ -540,7 +624,7 @@ end
         integer enemy1X = cast(integer, enemy1:GetX())
         integer enemy1Y = cast(integer, enemy1:GetY())
         
-        integer m1 = random:RandomIntegerBetween(1,4)
+        integer m1 = random:RandomIntegerBetween(1,8)
         if m1 = 1
             enemy1:Move(0, 10)
         elseif m1 = 2
@@ -551,7 +635,7 @@ end
             enemy1:Move(-10, 0)
         end
 
-        integer m2 = random:RandomIntegerBetween(1,4)
+        integer m2 = random:RandomIntegerBetween(1,8)
         if m2 = 1
             enemy2:Move(0, 10)
         elseif m2 = 2
@@ -562,7 +646,7 @@ end
             enemy2:Move(-10, 0)
         end
 
-        integer m3 = random:RandomIntegerBetween(1,4)
+        integer m3 = random:RandomIntegerBetween(1,8)
         if m3 = 1
             enemy3:Move(0, 10)
         elseif m3 = 2
@@ -573,7 +657,7 @@ end
             enemy3:Move(-10, 0)
         end
 
-        integer m4 = random:RandomIntegerBetween(1,4)
+        integer m4 = random:RandomIntegerBetween(1,8)
         if m4 = 1
             enemy4:Move(0, 10)
         elseif m4 = 2
@@ -667,14 +751,6 @@ integer position4 = random:RandomIntegerBetween(1,4)
         wall4:SetName("wall")
         wall4:SetCollidable(true)
         
-        Layer2D layer
-            layer:AddToFront(score)
-            layer:AddToFront(hb1)
-            layer:AddToFront(hb2)
-            layer:AddToFront(hb3)
-            layer:AddToFront(hb4)
-            layer:AddToFront(hb5)
-            layer:AddToFront(HP)
-            AddLayer(layer)
+
 end
 end
