@@ -78,7 +78,7 @@ class Main is Game, CollisionListener2D
     integer timerE2 = 0
     integer timerE3 = 0
     integer timerE4 = 0
-
+    integer pointsC = 1
 
     action Main
         StartGame()
@@ -210,15 +210,15 @@ class Main is Game, CollisionListener2D
         end
         CurrentAnimation = Animation mod 2
         if CurrentAnimation = 0
-            enemy3:Load("E1F1.png")
-        elseif CurrentAnimation = 1
             enemy3:Load("E1F2.png")
+        elseif CurrentAnimation = 1
+            enemy3:Load("E1F1.png")
         end
         CurrentAnimation = Animation mod 2
         if CurrentAnimation = 0
-            enemy4:Load("E1F1.png")
-        elseif CurrentAnimation = 1
             enemy4:Load("E1F2.png")
+        elseif CurrentAnimation = 1
+            enemy4:Load("E1F1.png")
         end
 
     end
@@ -260,7 +260,16 @@ class Main is Game, CollisionListener2D
     timerE4 = 0
     end
 
-    if emydeadE1:IsPlaying() = true and timerE1 = 15
+    if points = 10*pointsC
+    Add(enemy4)
+    Add(enemy3)
+    Add(enemy2)
+    Add(enemy1)
+    pointsC = pointsC + 1
+    end
+
+    if emydeadE1:IsPlaying() = true and timerE1 <= 15
+        Espawn:Play()
         integer position1 = random:RandomIntegerBetween(1,4)
         if position1 = 1
             enemy1:SetPosition(22, 22)
@@ -281,7 +290,8 @@ class Main is Game, CollisionListener2D
     end
     end
 
-    if emydeadE2:IsPlaying() = true and timerE2 = 15
+    if emydeadE2:IsPlaying() = true and timerE2 <= 15
+        Espawn:Play()
         integer position1 = random:RandomIntegerBetween(1,4)
         if position1 = 1
             enemy2:SetPosition(22, 22)
@@ -302,7 +312,8 @@ class Main is Game, CollisionListener2D
         end
     end
 
-    if emydeadE3:IsPlaying() = true and timerE3 = 15
+    if emydeadE3:IsPlaying() = true and timerE3 <= 15
+        Espawn:Play()
         integer position1 = random:RandomIntegerBetween(1,4)
         if position1 = 1
             enemy3:SetPosition(22, 22)
@@ -323,7 +334,8 @@ class Main is Game, CollisionListener2D
             end
     end
 
-    if emydeadE4:IsPlaying() = true and timerE4 = 15
+    if emydeadE4:IsPlaying() = true and timerE4 <= 15
+        Espawn:Play()
         integer position1 = random:RandomIntegerBetween(1,4)
         if position1 = 1
             enemy4:SetPosition(22, 22)
@@ -372,33 +384,33 @@ class Main is Game, CollisionListener2D
                 bullet:SetCollidable(true) 
                 Add(bullet)
                  bullet:SetPosition(mainGuy:GetX()+70,mainGuy:GetY()+30)
-                 bulletX = 28*counter
+                 bulletX = 30*counter
                  bulletY = 3*counter
             end
 
             if monitor:IsKeyPressed(key:RIGHT)
                 number oldx = mainGuy:GetX()
                 number newx = oldx + speed * seconds
-                mainGuy:SetPosition(newx, mainGuy:GetY(), mainGuy:GetZ())
+                mainGuy:SetPosition(newx, mainGuy:GetY())
             end 
 
         if monitor:IsKeyPressed(key:LEFT)
             number oldx = mainGuy:GetX()
             number newx = oldx - speed * seconds
-            mainGuy:SetPosition(newx, mainGuy:GetY(), mainGuy:GetZ())
-    //        Sound:SetPosition(newx, mainGuy:GetY(), mainGuy:GetZ())
+            mainGuy:SetPosition(newx, mainGuy:GetY())
         end
+
     if monitor:IsKeyPressed(key:UP)
         number oldy = mainGuy:GetY()
         number newy = oldy + speed * seconds
-        mainGuy:SetPosition(mainGuy:GetX(), newy, mainGuy:GetZ())
+        mainGuy:SetPosition(mainGuy:GetX(), newy)
 
     end
     if monitor:IsKeyPressed(key:DOWN)
         number oldY = mainGuy:GetY()
         number newY = oldY - speed * seconds
-        mainGuy:SetPosition(mainGuy:GetX(), newY, mainGuy:GetZ())
-//    Sound:SetPosition(mainGuy:GetX(), newY, mainGuy:GetZ())
+        mainGuy:SetPosition(mainGuy:GetX(), newY)
+
     end
     if monitor:IsKeyPressed(key:A)
         plrshotA:Play()
@@ -407,8 +419,8 @@ class Main is Game, CollisionListener2D
         bullet:SetName("bullet")
         bullet:SetCollidable(true) 
         Add(bullet)
-         bullet:SetPosition(mainGuy:GetX(),mainGuy:GetY()+30)
-         bulletX = -25*counter
+         bullet:SetPosition(mainGuy:GetX()+5,mainGuy:GetY()+30)
+         bulletX = -30*counter
          bulletY = 3*counter
          end
          bullet:Move(bulletX, bulletY)
@@ -417,14 +429,14 @@ class Main is Game, CollisionListener2D
         BulletPress = BulletPress + 1
         bullet:SetPosition(mainGuy:GetX()+38,mainGuy:GetY()+45)
          bulletX = 3*counter
-         bulletY = 28*counter
+         bulletY = 30*counter
     end
     if monitor:IsKeyPressed(key:S)
         plrshotA:Play()
         BulletPress = BulletPress + 1
         bullet:SetPosition(mainGuy:GetX()+38,mainGuy:GetY()+25)
          bulletX = 3*counter
-         bulletY = -28*counter
+         bulletY = -30*counter
          end
 
     if monitor:IsKeyPressed(key:F1)
